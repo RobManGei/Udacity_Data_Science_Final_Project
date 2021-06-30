@@ -137,5 +137,42 @@ In order to detect dogs better, a pre-trained ResNet-50 model to detect dogs in 
 
 It can be seen that it performs well (100% detection rate) with dog images as well as with not detecting dogs in the human images (0% detection).
 
+The next step is to create a CNN model from scratch in order to classify the dogs by breed. In order to do so, a sequential keras model is crated:
 
+![image](https://user-images.githubusercontent.com/65665840/123932174-7cab0480-d991-11eb-9563-426c0aad868a.png)
 
+I used three convolutional layers and images are always pooled afterwards to reduce size and account for neighboring pixels. Afterwards it is pooled by global average. Finally, it is densed to 133 (using softmax) as we have so many dog breed categories. The model is compiled and trained. It is optimized using RMS over 10 epochs. The model with the smallest validation lost is stored. This model is tested then an achieves a test accuracy of 3.1% which is better than the random classification and taht was the main goal here.
+
+![image](https://user-images.githubusercontent.com/65665840/123933303-897c2800-d992-11eb-90be-0c41af799669.png)
+
+In the next step, a pre-trained model is used (VGG-16 model as a fixed feature extractor). A Global Average Pooling Layer and a densing layer is added. After optimizing thes model using RMS over 20 epochs, it achieves an accuracy of 39.5%.
+
+In order to further improve accuracy, another pre-trained model (ResNet-50 bottleneck features) is used.  I added a GAP layer, a dropout layer to radomly drop nurons in order to prevent overfitting and then a densing layer to the 133 categories we have.
+
+![image](https://user-images.githubusercontent.com/65665840/123934179-51291980-d993-11eb-89c8-ef617410c1a9.png)
+
+I used different optimizers and found that the Adam optimizer performs best. Adam optimization is a stochastic gradient descent method that is based on adaptive estimation of first-order and second-order moments. 
+
+![image](https://user-images.githubusercontent.com/65665840/123934534-abc27580-d993-11eb-885e-d16605d3fa82.png)
+
+With an optimization over 20 epochs, the model archieves an accuracy of 81.5%.
+
+![image](https://user-images.githubusercontent.com/65665840/123934670-cd236180-d993-11eb-901d-abbc466aaadc.png)
+
+With this model the doog breed detection algorithem is created. It takes a path to an image and returns a message and prints the image. 
+
+![image](https://user-images.githubusercontent.com/65665840/123934781-eaf0c680-d993-11eb-8b13-4dec3185b073.png)
+
+The output is a bit betteer than expected. Humans are detected properly and the dogs are categoriezed correctly. A plane is detected not to be a human or a dog. Only flaw, in the drone picture, a face was detected. Possible points of improvement are: 1) Training of the model on a larger data set. For this, random transformations of the training data could be used. 2) Fine-tune the model with additional layers. 3) Fine-tuning of the model through fitting and adapting the pre-trained model as well.
+
+![image](https://user-images.githubusercontent.com/65665840/123935152-402cd800-d994-11eb-905f-ad68dfa041bc.png)
+
+![image](https://user-images.githubusercontent.com/65665840/123935203-4b800380-d994-11eb-9b9c-da6208c227cd.png)
+
+![image](https://user-images.githubusercontent.com/65665840/123935246-55096b80-d994-11eb-9265-05ac23396a55.png)
+
+![image](https://user-images.githubusercontent.com/65665840/123935008-212e4600-d994-11eb-9c51-58d70090ac90.png)
+
+![image](https://user-images.githubusercontent.com/65665840/123935056-2b504480-d994-11eb-8d5b-6f413c165521.png)
+
+![image](https://user-images.githubusercontent.com/65665840/123935101-34d9ac80-d994-11eb-90be-9f180aba5c0a.png)
