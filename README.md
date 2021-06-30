@@ -109,4 +109,33 @@ jupyter notebook dog_app.ipynb
 
 12. (Optional) **If you are running the project on your local machine (and not using AWS)**, before running code, change the kernel to match the dog-project environment by using the drop-down menu (**Kernel > Change kernel > dog-project**). Then, follow the instructions in the notebook.
 
+## Description
+
+### Problem statement
+In order to identify the breed of a dog given an image, a Convolutional Neural Network shall be used.
+
+In this notebook, an algorithm is created that accepts any user-supplied image as input. If a dog is detected in the image, it will provide an estimate of the dog's breed. If a human is detected, it will provide an estimate of the dog breed that is most resembling. In order to do so, several steps are performed:
+
+### Code walkthrough
+Firstly, a dog dataset as well as a human dataset is imprted. The dog dataset contains trining, validation and test images as well as a list of dog breeds (133 breeds). The human dataset contains 13233 images of human faces. 
+
+Secondly, a face detector is created to detect faces in an image. It is an Haar feature-based cascade classifier that is taken from OpenCV. The detector detects a face in all of the 100 sample human images but unfortunately in 11% of the sample dog images a human face is also detected.
+
+![image](https://user-images.githubusercontent.com/65665840/123930804-5b95e400-d990-11eb-9246-073a6c50007c.png)
+
+The project asks if this algorithmic choice necessitates that we communicate to the user that we accept human images only when they provide a clear view of a face (otherwise, we risk having unneccessarily frustrated users!). In your opinion, is this a reasonable expectation to pose on the user? If not, can you think of a way to detect humans in images that does not necessitate an image with a clearly presented face?
+
+I think that is a fairly reasonable expactation for this purpose. However, it would be beneficial if you could use suboptimal pictures. Other possibilities could include other trained models. There are models for profile pictures or upper body detection.
+
+I also tried the default people detector from HOGCV (https://docs.opencv.org/4.5.2/d5/d33/structcv_1_1HOGDescriptor.html) but as it is optimized to detect humans in total, it does not perform well in this task.
+
+A promising approach is described here: https://machinelearningmastery.com/how-to-perform-face-detection-with-classical-and-deep-learning-methods-in-python-with-keras/ It uses deep learning based on the paper “Joint Face Detection and Alignment Using Multitask Cascaded Convolutional Networks.” That seems to be performing quite well. I tried to implement it here but installing the package mtcnn caused problems with the installed version of numpy.
+
+In order to detect dogs better, a pre-trained ResNet-50 model to detect dogs in images is used. After some data transformation in order to use tensorflow with 4D tensors from the image paths, a dog detector is created.
+
+![image](https://user-images.githubusercontent.com/65665840/123931650-fee6f900-d990-11eb-85c7-1769aad2dc2c.png)
+
+It can be seen that it performs well (100% detection rate) with dog images as well as with not detecting dogs in the human images (0% detection).
+
+
 
