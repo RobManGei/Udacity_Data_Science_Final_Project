@@ -163,7 +163,7 @@ With this model the doog breed detection algorithem is created. It takes a path 
 
 ![image](https://user-images.githubusercontent.com/65665840/123934781-eaf0c680-d993-11eb-8b13-4dec3185b073.png)
 
-The output is a bit betteer than expected. Humans are detected properly and the dogs are categoriezed correctly. A plane is detected not to be a human or a dog. Only flaw, in the drone picture, a face was detected. Possible points of improvement are: 1) Training of the model on a larger data set. For this, random transformations of the training data could be used. 2) Fine-tune the model with additional layers. 3) Fine-tuning of the model through fitting and adapting the pre-trained model as well.
+The output is a bit better than expected. Humans are detected properly and the dogs are categorized correctly. A plane is detected not to be a human or a dog. Only flaw, in the drone picture, a face was detected. Possible points of improvement are: 1) Training of the model on a larger data set. For this, random transformations of the training data could be used. 2) Fine-tune the model with additional layers. 3) Fine-tuning of the model through fitting and adapting the pre-trained model as well.
 
 ![image](https://user-images.githubusercontent.com/65665840/123935152-402cd800-d994-11eb-905f-ad68dfa041bc.png)
 
