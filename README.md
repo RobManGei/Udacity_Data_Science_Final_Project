@@ -1,5 +1,5 @@
 # Udacity_Data_Science_Final_Project
-The repository for the final project of the Udacity Data Science Course. Most of the data is provided by Udacity here https://github.com/udacity/dog-project.git. I added the code in the jupyter notebook.
+The repository for the final project of the Udacity Data Science Course. Most of the data is provided by Udacity here https://github.com/udacity/dog-project.git. I added the code in the jupyter notebook. A writeup can be found here: https://morpheus161.medium.com/classifying-dog-breeds-using-convolutional-neural-networks-1da9b0e2b820
 
 Welcome to my Convolutional Neural Networks (CNN) project in the Data Scientist Nanodegree! In this project, I created a pipeline that can be used to process real-world, user-supplied images. If an image of a dog is supplied, my algorithm will identify an estimate of the dog’s breed. If an image of a human is supplied, the code will identify the resembling dog breed. If neither is in the image, a message will be displayed.
 
