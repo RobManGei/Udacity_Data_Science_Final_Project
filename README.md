@@ -117,7 +117,7 @@ In order to identify the breed of a dog given an image, a Convolutional Neural N
 In this notebook, an algorithm is created that accepts any user-supplied image as input. If a dog is detected in the image, it will provide an estimate of the dog's breed. If a human is detected, it will provide an estimate of the dog breed that is most resembling. In order to do so, several steps are performed:
 
 ### Code walkthrough
-Firstly, a dog dataset as well as a human dataset is imprted. The dog dataset contains trining, validation and test images as well as a list of dog breeds (133 breeds). The human dataset contains 13233 images of human faces. 
+Firstly, a dog dataset as well as a human dataset is imported. The dog dataset contains training, validation and test images as well as a list of dog breeds (133 breeds). The human dataset contains 13233 images of human faces. 
 
 Secondly, a face detector is created to detect faces in an image. It is an Haar feature-based cascade classifier that is taken from OpenCV. The detector detects a face in all of the 100 sample human images but unfortunately in 11% of the sample dog images a human face is also detected.
 
@@ -125,7 +125,7 @@ Secondly, a face detector is created to detect faces in an image. It is an Haar 
 
 The project asks if this algorithmic choice necessitates that we communicate to the user that we accept human images only when they provide a clear view of a face (otherwise, we risk having unneccessarily frustrated users!). In your opinion, is this a reasonable expectation to pose on the user? If not, can you think of a way to detect humans in images that does not necessitate an image with a clearly presented face?
 
-I think that is a fairly reasonable expactation for this purpose. However, it would be beneficial if you could use suboptimal pictures. Other possibilities could include other trained models. There are models for profile pictures or upper body detection.
+I think that is a fairly reasonable expectation for this purpose. However, it would be beneficial if you could use suboptimal pictures. Other possibilities could include other trained models. There are models for profile pictures or upper body detection.
 
 I also tried the default people detector from HOGCV (https://docs.opencv.org/4.5.2/d5/d33/structcv_1_1HOGDescriptor.html) but as it is optimized to detect humans in total, it does not perform well in this task.
 
@@ -141,13 +141,13 @@ The next step is to create a CNN model from scratch in order to classify the dog
 
 ![image](https://user-images.githubusercontent.com/65665840/123932174-7cab0480-d991-11eb-9563-426c0aad868a.png)
 
-I used three convolutional layers and images are always pooled afterwards to reduce size and account for neighboring pixels. Afterwards it is pooled by global average. Finally, it is densed to 133 (using softmax) as we have so many dog breed categories. The model is compiled and trained. It is optimized using RMS over 10 epochs. The model with the smallest validation lost is stored. This model is tested then an achieves a test accuracy of 3.1% which is better than the random classification and taht was the main goal here.
+I used three convolutional layers and images are always pooled afterwards to reduce size and account for neighboring pixels. Afterwards it is pooled by global average. Finally, it is densed to 133 (using softmax) as we have so many dog breed categories. The model is compiled and trained. It is optimized using RMS over 10 epochs. The model with the smallest validation lost is stored. This model is tested then an achieves a test accuracy of 3.1% which is better than the random classification and that was the main goal here.
 
 ![image](https://user-images.githubusercontent.com/65665840/123933303-897c2800-d992-11eb-90be-0c41af799669.png)
 
-In the next step, a pre-trained model is used (VGG-16 model as a fixed feature extractor). A Global Average Pooling Layer and a densing layer is added. After optimizing thes model using RMS over 20 epochs, it achieves an accuracy of 39.5%.
+In the next step, a pre-trained model is used (VGG-16 model as a fixed feature extractor). A Global Average Pooling Layer and a densing layer is added. After optimizing this model using RMS over 20 epochs, it achieves an accuracy of 39.5%.
 
-In order to further improve accuracy, another pre-trained model (ResNet-50 bottleneck features) is used.  I added a GAP layer, a dropout layer to radomly drop nurons in order to prevent overfitting and then a densing layer to the 133 categories we have.
+In order to further improve accuracy, another pre-trained model (ResNet-50 bottleneck features) is used.  I added a GAP layer, a dropout layer to randomly drop neurons in order to prevent overfitting and then a densing layer to the 133 categories we have.
 
 ![image](https://user-images.githubusercontent.com/65665840/123934179-51291980-d993-11eb-89c8-ef617410c1a9.png)
 
