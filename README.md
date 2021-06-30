@@ -5,13 +5,19 @@ Welcome to my Convolutional Neural Networks (CNN) project in the Data Scientist 
 
 ## Files and Folders:
 dog_app.ipynb - the jupyter notebook with the solution code
+
 dog_app.html - the jupyter notebook as html for future reference
+
 extract_bottleneck_features.py - python script to ertrackt bottleneck features out of pre-trained CNN models.
 
 bottleneck_features - folder for the bottleneck fetures (too large to store here)
+
 haarcascades - folder for Haar cascade filters
+
 images - folder for sample images
+
 requirements - folder for installation requirements
+
 saved_models - folder for the saved CNN models
 
 ## Project Instructions
