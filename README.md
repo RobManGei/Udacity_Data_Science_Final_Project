@@ -121,79 +121,88 @@ Welcome to my Convolutional Neural Networks (CNN) project in the Data Scientist 
 This project deals with the problem of image classification. Specifically, in order to identify the breed of a dog given an image, a Convolutional Neural Network shall be used. Several approaches were used. A CNN built from scratch was used and assessed and two pre-trained models for image classification (VGG-16 and ResNet-50) were used, adapted and assessed. The architectures of the pre-trained models can be found here https://neurohive.io/en/popular-networks/vgg16/ and here: https://neurohive.io/en/popular-networks/resnet/
 
 With that, an algorithm is created that accepts any user-supplied image as input. If a dog is detected in the image, it will provide an estimate of the dog's breed. If a human is detected, it will provide an estimate of the dog breed that is most resembling.
-The data sets used in this project can be found here: Dog images: https://s3-us-west-1.amazonaws.com/udacity-aind/dog-project/dogImages.zip Human images: https://s3-us-west-1.amazonaws.com/udacity-aind/dog-project/lfw.zip
+The data sets used in this project can be found here: Dog images: https://s3-us-west-1.amazonaws.com/udacity-aind/dog-project/dogImages.zip - human images: https://s3-us-west-1.amazonaws.com/udacity-aind/dog-project/lfw.zip
 
 ## Metrics
 
-In order to assess the performance of the different CNN models created, I used accuracy as a metric. In order to assess the accuracy, the data was split into a training set, a validation set and a test set:
-
-Data files are split into train, test and validation setsAfter a CNN model was created, the model was compiled, fitted to the training set and optimized my minimizing the validation loss:
-
-CNN model is being compiledCNN model is optimized by minimizing the validation lossThe model with the smallest validation loss was then used to assess the accuracy of the prediction using the test set:
-
-Calculation of the accuracy of the CNN model
+In order to assess the performance of the different CNN models created, I used accuracy as a metric. In order to assess the accuracy, the data was split into a training set, a validation set and a test set. After a CNN model was created, the model was compiled, fitted to the training set and optimized my minimizing the validation loss. The model with the smallest validation loss was then used to assess the accuracy of the prediction using the test set.
 
 ## Analysis
 ### Data Exploration and Visualization
 
-In order to get familiar with the data provided, I had a look at the images given. Dog images as well as images of human faces were provided. In total, there were 8351 dog images out of 133 different dog breeds:
-Statistics for dog images usedIn addition, there were 13233 images of human faces:
-Looking at the data in detail, it can be seen that the train images of the dogs are slightly imbalanced. The figure below shows the distribution of training images over the dog categories.
+In order to get familiar with the data provided, I had a look at the images given. Dog images as well as images of human faces were provided. In total, there were 8351 dog images out of 133 different dog breeds. In addition, there were 13233 images of human faces. Looking at the data in detail, it can be seen that the train images of the dogs are slightly imbalanced. The figure below shows the distribution of training images over the dog categories.
 
-Distribution of training images over the dog categoriesThe maximum number of images for a dog category is 77 for the Alaskan Malamute and the minimum number of pictures is 26 for the Norwegian Buhund. On average, there are approx. 50 images per dog category with a standard deviation of about 12.
-Statistics for the dog training imagesFor the validation set and the test set the situation is similar:
-Statistics for dog validation imagesStatistics for dog test images
+The maximum number of images for a dog category is 77 for the Alaskan Malamute and the minimum number of pictures is 26 for the Norwegian Buhund. On average, there are approx. 50 images per dog category with a standard deviation of about 12. For the validation set and the test set the situation is similar.
 
 So, this imbalance could be a factor in the performance of the model. On top of that, the quality of the images differs significantly and in some of the images multiple dogs or even dogs and humans are present. Some images also contain text.
-Samples of the training images
 
 ## Methodology
 ### Data Preprocessing
-Firstly, the dog dataset as well as a human dataset is imported as described above. The dog dataset contains training, validation and test images as well as a list of dog breeds (133 breeds). The human dataset contains 13233 images of human faces.
-For the face detection, the human images were converted from BGR-color images to gray scale images before the detector was used.
-Preprocessing of human imagesFor the dog images, the pre-processing steps are the following:
-The images are transformed from RGB to PIL format (tf.keras.preprocessing.image.load_img | TensorFlow Core v2.5.0)
-The images are converted to tensors
-Woth the tensors, the images are converted from RGB to BGR, then each color channel is zero-centered with respect to the ImageNet dataset, without scaling
 
-Preprocessing steps for dog picturesImplementation
+Firstly, the dog dataset as well as a human dataset is imported as described above. The dog dataset contains training, validation and test images as well as a list of dog breeds (133 breeds). The human dataset contains 13233 images of human faces.
+
+For the face detection, the human images were converted from BGR-color images to gray scale images before the detector was used. For the dog images, the pre-processing steps are the following:
+
+1) The images are transformed from RGB to PIL format (tf.keras.preprocessing.image.load_img | TensorFlow Core v2.5.0)
+2) The images are converted to tensors
+3) With the tensors, the images are converted from RGB to BGR, then each color channel is zero-centered with respect to the ImageNet dataset, without scaling
+
+## Implementation
+
 In summary, the implementation follows the following methodology:
-Implement face detector and dog detector
-Implement a CNN model to classify a dog's breed
-Train, optimize and validate the model
-Assess accuracy of classification of the model
-Implement the algorithm as described above
+
+1) Implement face detector and dog detector
+
+2) Implement a CNN model to classify a dog's breed
+
+3) Train, optimize and validate the model
+
+4) Assess accuracy of classification of the model
+
+5) Implement the algorithm as described above
 
 In order to implement the application defined above, a method to distinguish between a dog and a human has to be created. Therefore, a face detector and a dog detector are implemented.
-Face detector
+
+### Face detector
+
 The face detector is created to detect human faces in an image. It is an Haar feature-based cascade classifier that is taken from OpenCV (https://docs.opencv.org/4.5.2/db/d28/tutorial_cascade_classifier.html). The detector performs well in human images as it detects a face in all of the 100 sample human images. Unfortunately, in 11% of the sample dog images a human face is also detected. This means, another detector for the dog images is needed.
+
 The project asks if this algorithmic choice is acceptable as it necessitates that we communicate to the user that we accept human images only when they provide a clear view of a face (otherwise, we risk having unnecessarily frustrated users).
+
 I think that is a fairly reasonable expectation for this purpose. However, it would be beneficial if you could use suboptimal pictures as well. Other possibilities to detect faces could include other classifiers. There are classifiers for profile pictures or upper body detection available as well (https://github.com/opencv/opencv/tree/master/data/haarcascades).
-I also tried the default people detector from HOGCV (https://docs.opencv.org/4.5.2/d5/d33/structcv_1_1HOGDescriptor.html) but as it is optimized to detect humans in total, it does not perform well in this task. For example, it detects a human in this picture:
-Human detected using HOGCV classifierA promising approach to detect faces using CNN is described here: https://machinelearningmastery.com/how-to-perform-face-detection-with-classical-and-deep-learning-methods-in-python-with-keras/. It uses deep learning based on the paper "Joint Face Detection and Alignment Using Multitask Cascaded Convolutional Networks". This approach seems to be performing quite well. I tried to implement it here, but installing the package "mtcnn" caused problems with the installed version of numpy and led to 
+
+I also tried the default people detector from HOGCV (https://docs.opencv.org/4.5.2/d5/d33/structcv_1_1HOGDescriptor.html) but as it is optimized to detect humans in total, it does not perform well in this task. For example, it detects a human in this picture.
+
+A promising approach to detect faces using CNN is described here: https://machinelearningmastery.com/how-to-perform-face-detection-with-classical-and-deep-learning-methods-in-python-with-keras/. It uses deep learning based on the paper "Joint Face Detection and Alignment Using Multitask Cascaded Convolutional Networks". This approach seems to be performing quite well. I tried to implement it here, but installing the package "mtcnn" caused problems with the installed version of numpy and led to 
 incompatibility with other packages used in the project.
-Dog detector
+
+### Dog detector
+
 In order to detect dogs better, a pre-trained ResNet-50 model for image classification is used (https://keras.io/api/applications/#usage-examples-for-image-classification-models). After some data transformation, in order to use tensorflow with 4D tensors from the image paths, a dog detector is created.
-This implementation uses the CNN model to classify a given image and if the prediction is one of the dog breeds, the detector returns true:
-Dog detector using pre-trained ResNet50 modelIt can be seen that it performs well (100% detection rate) with dog images as well as with not detecting dogs in the human images (0% false detection) with the given sample.
-Results of dog detectorCNN model from scratch
-The next step is to create a CNN model from scratch in order to classify the dogs by breed. In order to do so, a sequential keras model is crated:
-I used three convolutional layers and images are always pooled afterwards to reduce size and account for neighboring pixels. Afterwards it is pooled by global average. Finally, it is densed to 133 (using softmax) as we have that many dog breed categories. The model is compiled and trained. It is optimized using RMS over 10 epochs. The model with the smallest validation loss is stored. This model is then tested and achieves a test accuracy of 2.9% which is better than the random classification (1/133) and that was the main goal here.
-Test accuracy for CNN model from scratchRefinement
+
+This implementation uses the CNN model to classify a given image and if the prediction is one of the dog breeds, the detector returns true. It can be seen that it performs well (100% detection rate) with dog images as well as with not detecting dogs in the human images (0% false detection) with the given sample.
+
+The next step is to create a CNN model from scratch in order to classify the dogs by breed. In order to do so, a sequential keras model is crated. I used three convolutional layers and images are always pooled afterwards to reduce size and account for neighboring pixels. Afterwards it is pooled by global average. Finally, it is densed to 133 (using softmax) as we have that many dog breed categories.
+
+The model is compiled and trained. It is optimized using RMS over 10 epochs. The model with the smallest validation loss is stored. This model is then tested and achieves a test accuracy of 2.9% which is better than the random classification (1/133) and that was the main goal here.
+
+## Refinement
+
 In the next step, a pre-trained model is used (VGG-16 model as a fixed feature extractor using bottleneck features (the last activation maps before the fully-connected layers)).
 A Global Average Pooling Layer and a densing layer is added. After optimizing this model using RMS over 20 epochs, it achieves an accuracy of 42%.
+
 In order to further improve accuracy, another pre-trained model (ResNet-50 bottleneck features) is used. I added a GAP layer, a dropout layer to randomly drop neurons in order to prevent overfitting and then a densing layer to the 133 categories we have.
+
 I used different optimizers and found that the Adam optimizer performs best (slightly better than RMSprop). Adam optimization is a stochastic gradient descent method that is based on adaptive estimation of first-order and second-order moments.
-With an optimization over 20 epochs, the model achieves an accuracy of 81.9% (compared to 79% with a RMSprop optimizer).
-Test accuracy of final modelWith this model the dog breed detection algorithm is created. It takes a path to an image and returns a message and prints the image.
-Dog breed classification algorithm
+
+With an optimization over 20 epochs, the model achieves an accuracy of 81.9% (compared to 79% with a RMSprop optimizer). With this model the dog breed detection algorithm is created. It takes a path to an image and returns a message and prints the image.
 
 ## Results
 ### Model Evaluation and Validation
 
 As described above, the final CNN model that used transfer learning based on a pre-trained ResNet50 model achieved an accuracy on the test set of 81.5%. This model was validated on the validation set and the one with the smallest validation loss. In order demonstrate the robustness of my model, I performed a k-fold validation (https://neptune.ai/blog/cross-validation-in-machine-learning-how-to-do-it-right). For this I only used the training set and the targets. The dataset was split in 10 folds and the model from above was fitted and optimized with the same parameters. 
-The model with the smallest validation loss in each iteration was tested with the original test set. The figure below shows the obtained accuracy values.
-k-fold cross validation resultsIt can bee seen, that the test accuracy remains pretty stable and therefore, the characteristics of the model are assumed to be acceptable for this task.
+
+The model with the smallest validation loss in each iteration was tested with the original test set. The figure below shows the obtained accuracy values. It can bee seen, that the test accuracy remains pretty stable and therefore, the characteristics of the model are assumed to be acceptable for this task.
 
 ### Justification
 
