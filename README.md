@@ -121,7 +121,7 @@ Welcome to my Convolutional Neural Networks (CNN) project in the Data Scientist 
 This project deals with the problem of image classification. Specifically, in order to identify the breed of a dog given an image, a Convolutional Neural Network shall be used. Several approaches were used. A CNN built from scratch was used and assessed and two pre-trained models for image classification (VGG-16 and ResNet-50) were used, adapted and assessed. The architectures of the pre-trained models can be found here https://neurohive.io/en/popular-networks/vgg16/ and here: https://neurohive.io/en/popular-networks/resnet/
 
 With that, an algorithm is created that accepts any user-supplied image as input. If a dog is detected in the image, it will provide an estimate of the dog's breed. If a human is detected, it will provide an estimate of the dog breed that is most resembling.
-The data sets used in this project can be found here: Dogs images: https://s3-us-west-1.amazonaws.com/udacity-aind/dog-project/dogImages.zip Human images: https://s3-us-west-1.amazonaws.com/udacity-aind/dog-project/lfw.zip
+The data sets used in this project can be found here: Dog images: https://s3-us-west-1.amazonaws.com/udacity-aind/dog-project/dogImages.zip Human images: https://s3-us-west-1.amazonaws.com/udacity-aind/dog-project/lfw.zip
 
 ## Metrics
 
